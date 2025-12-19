@@ -1,4 +1,4 @@
-PCB Watch
+#PCB Watch
 
 This repository contains the firmware source code and PCB production files for a custom-designed LED watch based on the LumiDial concept.
 
