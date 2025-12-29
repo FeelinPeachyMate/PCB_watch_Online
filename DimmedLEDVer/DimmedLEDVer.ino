@@ -19,15 +19,13 @@ const int cols = sizeof(cathode)/sizeof(cathode[0]);
 
 // ---------- PWM ----------
 uint8_t pwmFrame = 0;
-const uint8_t maxFrame = 4;
+const uint8_t maxFrame = 3;
 
 // Dim levels
 const uint8_t blueDim        = 1;
 const uint8_t redDimMinutes  = 1;
-const uint8_t redDimSeconds  = 1;
+const uint8_t redDimSeconds  = 2;
 
-// ---------- Seconds dim ----------
-uint8_t secondSkip = 0;
 
 // ---------- Edit mode ----------
 enum EditMode { NONE, HOUR, MINUTE, SECOND };
@@ -82,7 +80,7 @@ void loop() {
         while (DS3231M.now().second() == s) {
             // wait for next RTC second tick
         }
-        secondSkip = 0;
+
         pwmFrame = 0;
     }
     lastMode = currentMode;
@@ -124,10 +122,9 @@ void loop() {
 
     // SECONDS (unchanged behavior)
     turnOffAllLEDs();
-    secondSkip = (secondSkip + 1) % 4;
-    if (secondSkip == 0 && pwmFrame < redDimSeconds) {
+    if (pwmFrame < redDimSeconds) {
         lightSecondLED(lastSecond);
-        delayMicroseconds(8);
+        delayMicroseconds(20);
     }
 
     turnOffAllLEDs();
